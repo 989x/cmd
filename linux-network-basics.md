@@ -14,7 +14,7 @@ Show all network interfaces and IP addresses:
 
 ```bash
 ip addr
-````
+```
 
 Quickly show only IPv4 addresses:
 

@@ -19,7 +19,7 @@ Create an empty file:
 
 ```bash
 touch myfile.txt
-````
+```
 
 Create a file with initial text:
 

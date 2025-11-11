@@ -2,7 +2,7 @@
 
 - [Check the SSH log](#check-the-ssh-log)
 - [Check the current system time](#check-the-current-system-time)
-- [Check the CUBE RAM disk usage](#check-the-cube-ram-disk-usage)
+- [How to check CPU, RAM, and disk usage](#how-to-check-cpu-ram-and-disk-usage)
 - [Using DNS lookup and traceroute commands](#using-dns-lookup-and-traceroute-commands)
 
 ## Check the SSH log
@@ -15,7 +15,7 @@ SSH log entries are usually in:
 
 ```bash
 sudo tail -f /var/log/auth.log
-````
+```
 
 Search only for SSH-related messages:
 
@@ -79,34 +79,118 @@ Set the system timezone (example: Bangkok):
 sudo timedatectl set-timezone Asia/Bangkok
 ```
 
-## Check the CUBE RAM disk usage
+## How to check CPU, RAM, and disk usage
 
-A RAM disk is usually mounted as a `tmpfs`.
-You can check its usage with `df` or `du`.
+You often need a quick overview of how busy the system is and whether you are running out of resources.
+The tools below are available on most Linux distributions.
 
-### Check via `df`
+### Quick overall view
 
-If your CUBE RAM disk is mounted at `/cube` (adjust as needed):
-
-```bash
-df -h | grep cube
-```
-
-Or show all `tmpfs` filesystems:
+Use `top` (built-in on almost all systems):
 
 ```bash
-df -h -t tmpfs
+top
 ```
 
-### Check which files are using space
+Press:
 
-To see which folders inside the RAM disk are taking space, for example `/cube`:
+- `q` to quit
+- `P` to sort by CPU usage
+- `M` to sort by memory usage
+
+If installed, `htop` provides a nicer, colored interface:
 
 ```bash
-du -sh /cube/*
+htop
 ```
 
-`du -sh` shows the size of each sub-folder in a human-readable format.
+### Check CPU usage
+
+See current CPU load and top processes:
+
+```bash
+top
+```
+
+Show load averages (1, 5, 15 minutes):
+
+```bash
+uptime
+```
+
+Example:
+
+```text
+ 14:32:10 up 10 days,  2:15,  2 users,  load average: 0.35, 0.40, 0.25
+```
+
+If `mpstat` is available (from `sysstat` package), per-CPU usage:
+
+```bash
+mpstat -P ALL 1
+```
+
+This shows CPU usage for all cores, updating every second.
+
+### Check RAM usage
+
+Show total, used, and free memory:
+
+```bash
+free -h
+```
+
+Example:
+
+```text
+              total        used        free      shared  buff/cache   available
+Mem:           15Gi       4.0Gi       2.0Gi       512Mi       9.0Gi        10Gi
+Swap:          2.0Gi       0.0Gi       2.0Gi
+```
+
+You can also view memory usage in `top`:
+
+```bash
+top
+```
+
+Press `M` to sort processes by memory usage.
+
+For a detailed summary (if `vmstat` is installed):
+
+```bash
+vmstat -s
+```
+
+### Check disk usage
+
+Show usage of all mounted filesystems:
+
+```bash
+df -h
+```
+
+Check usage of the root filesystem (`/`):
+
+```bash
+df -h /
+```
+
+See which folders inside a path are using the most space, for example `/var`:
+
+```bash
+sudo du -sh /var/*
+```
+
+`-s` = summary, `-h` = human-readable sizes (KB/MB/GB).
+
+List block devices and their sizes (disks and partitions):
+
+```bash
+lsblk
+```
+
+This helps you see how many disks are attached and how they are partitioned.
 
 ## Using DNS lookup and traceroute commands
 
