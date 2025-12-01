@@ -1,0 +1,567 @@
+{
+  "__inputs": [
+    {
+      "name": "DS_PROMETHEUS",
+      "label": "Prometheus",
+      "description": "Prometheus datasource for node_exporter & Go runtime",
+      "type": "datasource",
+      "pluginId": "prometheus",
+      "pluginName": "Prometheus"
+    }
+  ],
+  "__requires": [
+    { "type": "grafana", "id": "grafana", "name": "Grafana", "version": "8.0.0" },
+    { "type": "panel", "id": "singlestat", "name": "Singlestat", "version": "" },
+    { "type": "panel", "id": "table", "name": "Table", "version": "" },
+    { "type": "panel", "id": "text", "name": "Text", "version": "" },
+    { "type": "datasource", "id": "prometheus", "name": "Prometheus", "version": "" }
+  ],
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": null,
+  "links": [],
+  "panels": [
+    {
+      "type": "row",
+      "title": "Overview",
+      "id": 1,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 0 },
+      "collapsed": false
+    },
+    {
+      "type": "text",
+      "title": "Custom Status Overview",
+      "id": 2,
+      "gridPos": { "h": 10, "w": 24, "x": 0, "y": 1 },
+      "options": {
+        "mode": "html",
+        "content": "<div style='font-family:-apple-system,BlinkMacSystemFont,\"Segoe UI\",sans-serif;padding:18px 22px;'>\n  <div style='display:flex;justify-content:space-between;align-items:flex-start;gap:16px;'>\n    <div style='flex:2;'>\n      <h1 style='margin:0 0 6px 0;font-size:30px;'>Node Status Overview</h1>\n      <h2 style='margin:0 0 14px 0;font-size:16px;color:#9fa8da;'>Instance:&nbsp;<a href=\"http://188.44.44.1:9100\" style='color:#42a5f5;text-decoration:none;'>188.44.44.1:9100</a></h2>\n      <p style='margin:0 0 16px 0;font-size:13px;color:#cfd8dc;max-width:900px;'>This dashboard is a <b>Custom Status Visualization</b> for <code>node_exporter</code> and the Go runtime. Instead of traditional graphs, it focuses on <b>status tiles</b>, <b>compact lists</b>, and <b>health summaries</b> for fast at-a-glance decisions.</p>\n      <ul style='margin:0 0 8px 20px;padding:0;font-size:12px;color:#b0bec5;'>\n        <li>Top row: high-level health tiles (CPU, memory, disk, runtime).</li>\n        <li>Below: status lists for network, PromHTTP, file descriptors and entropy.</li>\n        <li>All metrics come from <code>/metrics</code> on this node; layout and visuals are fully customizable via HTML & CSS.</li>\n      </ul>\n    </div>\n    <div style='flex:1;min-width:260px;background:#111827;border-radius:10px;padding:12px 14px;'>\n      <div style='font-size:11px;color:#9fa8da;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;'>Quick Legend</div>\n      <div style='display:flex;flex-direction:column;gap:6px;font-size:12px;color:#cfd8dc;'>\n        <div><span style='display:inline-block;width:10px;height:10px;border-radius:999px;background:#4caf50;margin-right:6px;'></span>OK &lt; warning threshold</div>\n        <div><span style='display:inline-block;width:10px;height:10px;border-radius:999px;background:#ffb300;margin-right:6px;'></span>Warning &gt;= first threshold</div>\n        <div><span style='display:inline-block;width:10px;height:10px;border-radius:999px;background:#f44336;margin-right:6px;'></span>Critical &gt;= second threshold</div>\n      </div>\n      <hr style='border:none;border-top:1px solid #263238;margin:10px 0;'>\n      <div style='font-size:11px;color:#90a4ae;line-height:1.4;'>Modify this panel to add your own logo, theme colors, or a custom description of the node/cluster. No PromQL changes required.</div>\n    </div>\n  </div>\n  <div style='margin-top:14px;display:flex;flex-wrap:wrap;gap:10px;'>\n    <div style='flex:1 1 220px;background:#111827;border-radius:8px;padding:8px 10px;'>\n      <div style='font-size:10px;color:#9fa8da;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px;'>CPU</div>\n      <div style='font-size:12px;color:#eceff1;'>Average CPU usage + load & pressure status tiles.</div>\n    </div>\n    <div style='flex:1 1 220px;background:#111827;border-radius:8px;padding:8px 10px;'>\n      <div style='font-size:10px;color:#9fa8da;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px;'>Memory</div>\n      <div style='font-size:12px;color:#eceff1;'>Usage %, breakdown, and available headroom.</div>\n    </div>\n    <div style='flex:1 1 220px;background:#111827;border-radius:8px;padding:8px 10px;'>\n      <div style='font-size:10px;color:#9fa8da;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px;'>Disk &amp; FS</div>\n      <div style='font-size:12px;color:#eceff1;'>Top disks, filesystem utilization and I/O health.</div>\n    </div>\n    <div style='flex:1 1 220px;background:#111827;border-radius:8px;padding:8px 10px;'>\n      <div style='font-size:10px;color:#9fa8da;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px;'>Go Runtime</div>\n      <div style='font-size:12px;color:#eceff1;'>GC pauses, heap, goroutines and exporter status.</div>\n    </div>\n  </div>\n</div>"
+      }
+    },
+
+    {
+      "type": "row",
+      "title": "Health Tiles (Custom Status)",
+      "id": 10,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 11 },
+      "collapsed": false
+    },
+
+    {
+      "type": "singlestat",
+      "title": "Node Uptime",
+      "id": 11,
+      "datasource": "${DS_PROMETHEUS}",
+      "gridPos": { "h": 4, "w": 4, "x": 0, "y": 12 },
+      "format": "s",
+      "gauge": {
+        "show": true,
+        "minValue": 0,
+        "maxValue": 31540000,
+        "thresholdLabels": true,
+        "thresholdMarkers": true
+      },
+      "thresholds": "604800,2592000",
+      "valueFontSize": "120%",
+      "targets": [
+        { "refId": "A", "expr": "time() - node_boot_time_seconds{instance=\"$instance\"}" }
+      ],
+      "valueName": "current",
+      "maxDataPoints": 100
+    },
+    {
+      "type": "singlestat",
+      "title": "CPU Usage (avg %)",
+      "id": 12,
+      "datasource": "${DS_PROMETHEUS}",
+      "gridPos": { "h": 4, "w": 4, "x": 4, "y": 12 },
+      "format": "percent",
+      "gauge": {
+        "show": true,
+        "minValue": 0,
+        "maxValue": 100,
+        "thresholdLabels": true,
+        "thresholdMarkers": true
+      },
+      "thresholds": "70,90",
+      "valueFontSize": "120%",
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "(1 - avg by (instance) (rate(node_cpu_seconds_total{mode=\"idle\",instance=\"$instance\"}[5m]))) * 100"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
+      "type": "singlestat",
+      "title": "Memory Used (%)",
+      "id": 13,
+      "datasource": "${DS_PROMETHEUS}",
+      "gridPos": { "h": 4, "w": 4, "x": 8, "y": 12 },
+      "format": "percent",
+      "gauge": {
+        "show": true,
+        "minValue": 0,
+        "maxValue": 100,
+        "thresholdLabels": true,
+        "thresholdMarkers": true
+      },
+      "thresholds": "80,90",
+      "valueFontSize": "120%",
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "((node_memory_MemTotal_bytes{instance=\"$instance\"}-node_memory_MemFree_bytes{instance=\"$instance\"}-node_memory_Buffers_bytes{instance=\"$instance\"}-node_memory_Cached_bytes{instance=\"$instance\"})/node_memory_MemTotal_bytes{instance=\"$instance\"})*100"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
+      "type": "singlestat",
+      "title": "Root FS Used (%)",
+      "id": 14,
+      "datasource": "${DS_PROMETHEUS}",
+      "gridPos": { "h": 4, "w": 4, "x": 12, "y": 12 },
+      "format": "percent",
+      "gauge": {
+        "show": true,
+        "minValue": 0,
+        "maxValue": 100,
+        "thresholdLabels": true,
+        "thresholdMarkers": true
+      },
+      "thresholds": "75,90",
+      "valueFontSize": "120%",
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "((node_filesystem_size_bytes{instance=\"$instance\",mountpoint=\"/\"}-node_filesystem_free_bytes{instance=\"$instance\",mountpoint=\"/\"})/node_filesystem_size_bytes{instance=\"$instance\",mountpoint=\"/\"})*100"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
+      "type": "singlestat",
+      "title": "PromHTTP In-flight",
+      "id": 15,
+      "datasource": "${DS_PROMETHEUS}",
+      "gridPos": { "h": 4, "w": 4, "x": 16, "y": 12 },
+      "format": "short",
+      "gauge": {
+        "show": true,
+        "minValue": 0,
+        "maxValue": 10,
+        "thresholdLabels": true,
+        "thresholdMarkers": true
+      },
+      "thresholds": "2,5",
+      "valueFontSize": "120%",
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "max by (instance) (promhttp_metric_handler_requests_in_flight{instance=\"$instance\"})"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
+      "type": "singlestat",
+      "title": "Open FDs / Max",
+      "id": 16,
+      "datasource": "${DS_PROMETHEUS}",
+      "gridPos": { "h": 4, "w": 4, "x": 20, "y": 12 },
+      "format": "percentunit",
+      "gauge": {
+        "show": true,
+        "minValue": 0,
+        "maxValue": 1,
+        "thresholdLabels": true,
+        "thresholdMarkers": true
+      },
+      "thresholds": "0.5,0.8",
+      "valueFontSize": "120%",
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "max by (instance) (process_open_fds{instance=\"$instance\"}) / max by (instance) (process_max_fds{instance=\"$instance\"})"
+        }
+      ],
+      "valueName": "current"
+    },
+
+    {
+      "type": "row",
+      "title": "CPU & Memory Status Lists",
+      "id": 20,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 16 },
+      "collapsed": false
+    },
+    {
+      "type": "table",
+      "title": "CPU Mode Breakdown (status snapshot)",
+      "id": 21,
+      "datasource": "${DS_PROMETHEUS}",
+      "gridPos": { "h": 7, "w": 12, "x": 0, "y": 17 },
+      "transform": "table",
+      "styles": [],
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "rate(node_cpu_seconds_total{instance=\"$instance\"}[5m])",
+          "legendFormat": "{{cpu}} {{mode}}"
+        }
+      ]
+    },
+    {
+      "type": "table",
+      "title": "Memory Breakdown (status snapshot)",
+      "id": 22,
+      "datasource": "${DS_PROMETHEUS}",
+      "gridPos": { "h": 7, "w": 12, "x": 12, "y": 17 },
+      "transform": "table",
+      "styles": [],
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "node_memory_MemTotal_bytes{instance=\"$instance\"}",
+          "legendFormat": "MemTotal"
+        },
+        {
+          "refId": "B",
+          "expr": "node_memory_MemAvailable_bytes{instance=\"$instance\"}",
+          "legendFormat": "MemAvailable"
+        },
+        {
+          "refId": "C",
+          "expr": "node_memory_Slab_bytes{instance=\"$instance\"}",
+          "legendFormat": "Slab"
+        },
+        {
+          "refId": "D",
+          "expr": "node_memory_SReclaimable_bytes{instance=\"$instance\"}",
+          "legendFormat": "SReclaimable"
+        },
+        {
+          "refId": "E",
+          "expr": "node_memory_SUnreclaim_bytes{instance=\"$instance\"}",
+          "legendFormat": "SUnreclaim"
+        }
+      ]
+    },
+
+    {
+      "type": "row",
+      "title": "Disk & Filesystem Status Lists",
+      "id": 30,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 24 },
+      "collapsed": false
+    },
+    {
+      "type": "table",
+      "title": "Disk I/O Status (per device)",
+      "id": 31,
+      "datasource": "${DS_PROMETHEUS}",
+      "gridPos": { "h": 7, "w": 12, "x": 0, "y": 25 },
+      "transform": "table",
+      "styles": [],
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (device) (rate(node_disk_read_bytes_total{instance=\"$instance\",device=~\"$disk\"}[5m]))",
+          "legendFormat": "read {{device}}"
+        },
+        {
+          "refId": "B",
+          "expr": "sum by (device) (rate(node_disk_written_bytes_total{instance=\"$instance\",device=~\"$disk\"}[5m]))",
+          "legendFormat": "write {{device}}"
+        },
+        {
+          "refId": "C",
+          "expr": "sum by (device) (rate(node_disk_io_time_seconds_total{instance=\"$instance\",device=~\"$disk\"}[5m]))",
+          "legendFormat": "io_time {{device}}"
+        }
+      ]
+    },
+    {
+      "type": "table",
+      "title": "Filesystem Capacity Status",
+      "id": 32,
+      "datasource": "${DS_PROMETHEUS}",
+      "gridPos": { "h": 7, "w": 12, "x": 12, "y": 25 },
+      "transform": "table",
+      "styles": [],
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "node_filesystem_size_bytes{instance=\"$instance\"}",
+          "legendFormat": "size {{mountpoint}} ({{fstype}})"
+        },
+        {
+          "refId": "B",
+          "expr": "node_filesystem_free_bytes{instance=\"$instance\"}",
+          "legendFormat": "free {{mountpoint}}"
+        },
+        {
+          "refId": "C",
+          "expr": "node_filesystem_avail_bytes{instance=\"$instance\"}",
+          "legendFormat": "avail {{mountpoint}}"
+        },
+        {
+          "refId": "D",
+          "expr": "node_filesystem_readonly{instance=\"$instance\"}",
+          "legendFormat": "readonly {{mountpoint}}"
+        }
+      ]
+    },
+
+    {
+      "type": "row",
+      "title": "Network Status Lists",
+      "id": 40,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 32 },
+      "collapsed": false
+    },
+    {
+      "type": "table",
+      "title": "Interfaces RX/TX (bytes/s)",
+      "id": 41,
+      "datasource": "${DS_PROMETHEUS}",
+      "gridPos": { "h": 7, "w": 12, "x": 0, "y": 33 },
+      "transform": "table",
+      "styles": [],
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "rate(node_network_receive_bytes_total{instance=\"$instance\",device!~\"lo\",device=~\"$iface\"}[5m])",
+          "legendFormat": "rx {{device}}"
+        },
+        {
+          "refId": "B",
+          "expr": "rate(node_network_transmit_bytes_total{instance=\"$instance\",device!~\"lo\",device=~\"$iface\"}[5m])",
+          "legendFormat": "tx {{device}}"
+        }
+      ]
+    },
+    {
+      "type": "table",
+      "title": "Interfaces Packets / Errors (per s)",
+      "id": 42,
+      "datasource": "${DS_PROMETHEUS}",
+      "gridPos": { "h": 7, "w": 12, "x": 12, "y": 33 },
+      "transform": "table",
+      "styles": [],
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "rate(node_network_receive_packets_total{instance=\"$instance\",device!~\"lo\",device=~\"$iface\"}[5m])",
+          "legendFormat": "rx_pkts {{device}}"
+        },
+        {
+          "refId": "B",
+          "expr": "rate(node_network_transmit_packets_total{instance=\"$instance\",device!~\"lo\",device=~\"$iface\"}[5m])",
+          "legendFormat": "tx_pkts {{device}}"
+        },
+        {
+          "refId": "C",
+          "expr": "rate(node_network_receive_errs_total{instance=\"$instance\",device!~\"lo\",device=~\"$iface\"}[5m])",
+          "legendFormat": "rx_errs {{device}}"
+        },
+        {
+          "refId": "D",
+          "expr": "rate(node_network_transmit_errs_total{instance=\"$instance\",device!~\"lo\",device=~\"$iface\"}[5m])",
+          "legendFormat": "tx_errs {{device}}"
+        }
+      ]
+    },
+
+    {
+      "type": "row",
+      "title": "Go Runtime & Exporter Status",
+      "id": 50,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 40 },
+      "collapsed": false
+    },
+    {
+      "type": "table",
+      "title": "Go Runtime Summary",
+      "id": 51,
+      "datasource": "${DS_PROMETHEUS}",
+      "gridPos": { "h": 7, "w": 12, "x": 0, "y": 41 },
+      "transform": "table",
+      "styles": [],
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "go_memstats_heap_alloc_bytes",
+          "legendFormat": "heap_alloc"
+        },
+        {
+          "refId": "B",
+          "expr": "go_memstats_heap_inuse_bytes",
+          "legendFormat": "heap_inuse"
+        },
+        {
+          "refId": "C",
+          "expr": "go_memstats_next_gc_bytes",
+          "legendFormat": "next_gc"
+        },
+        {
+          "refId": "D",
+          "expr": "go_goroutines",
+          "legendFormat": "goroutines"
+        },
+        {
+          "refId": "E",
+          "expr": "go_threads",
+          "legendFormat": "threads"
+        },
+        {
+          "refId": "F",
+          "expr": "go_memstats_gc_cpu_fraction",
+          "legendFormat": "gc_cpu_fraction"
+        }
+      ]
+    },
+    {
+      "type": "table",
+      "title": "PromHTTP Status (codes & errors)",
+      "id": 52,
+      "datasource": "${DS_PROMETHEUS}",
+      "gridPos": { "h": 7, "w": 12, "x": 12, "y": 41 },
+      "transform": "table",
+      "styles": [],
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (code,instance) (rate(promhttp_metric_handler_requests_total{instance=\"$instance\"}[5m]))",
+          "legendFormat": "req/s code {{code}}"
+        },
+        {
+          "refId": "B",
+          "expr": "rate(promhttp_metric_handler_errors_total{instance=\"$instance\"}[5m])",
+          "legendFormat": "errors/s {{cause}}"
+        },
+        {
+          "refId": "C",
+          "expr": "promhttp_metric_handler_requests_in_flight{instance=\"$instance\"}",
+          "legendFormat": "in_flight {{instance}}"
+        }
+      ]
+    },
+
+    {
+      "type": "row",
+      "title": "System Extras",
+      "id": 60,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 48 },
+      "collapsed": false
+    },
+    {
+      "type": "table",
+      "title": "Entropy & FD Status",
+      "id": 61,
+      "datasource": "${DS_PROMETHEUS}",
+      "gridPos": { "h": 6, "w": 12, "x": 0, "y": 49 },
+      "transform": "table",
+      "styles": [],
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "node_entropy_available_bits{instance=\"$instance\"}",
+          "legendFormat": "entropy_bits"
+        },
+        {
+          "refId": "B",
+          "expr": "node_filefd_allocated{instance=\"$instance\"}",
+          "legendFormat": "fds_allocated"
+        },
+        {
+          "refId": "C",
+          "expr": "node_filefd_maximum{instance=\"$instance\"}",
+          "legendFormat": "fds_max"
+        }
+      ]
+    },
+    {
+      "type": "table",
+      "title": "System Info (uname)",
+      "id": 62,
+      "datasource": "${DS_PROMETHEUS}",
+      "gridPos": { "h": 6, "w": 12, "x": 12, "y": 49 },
+      "transform": "table",
+      "styles": [],
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "node_uname_info{instance=\"$instance\"}",
+          "legendFormat": "{{sysname}} {{release}} {{version}}"
+        }
+      ]
+    }
+  ],
+  "refresh": "10s",
+  "schemaVersion": 27,
+  "style": "dark",
+  "tags": ["node_exporter", "runtime", "golang", "linux", "custom-status"],
+  "templating": {
+    "list": [
+      {
+        "name": "instance",
+        "type": "query",
+        "label": "Instance",
+        "hide": 0,
+        "datasource": "${DS_PROMETHEUS}",
+        "refresh": 1,
+        "query": "label_values(node_uname_info, instance)",
+        "multi": false,
+        "includeAll": false
+      },
+      {
+        "name": "disk",
+        "type": "query",
+        "label": "Disk Device",
+        "hide": 0,
+        "datasource": "${DS_PROMETHEUS}",
+        "refresh": 1,
+        "query": "label_values(node_disk_reads_completed_total{instance=\\\"$instance\\\"}, device)",
+        "multi": true,
+        "includeAll": true
+      },
+      {
+        "name": "iface",
+        "type": "query",
+        "label": "Interface",
+        "hide": 0,
+        "datasource": "${DS_PROMETHEUS}",
+        "refresh": 1,
+        "query": "label_values(node_network_transmit_bytes_total{instance=\\\"$instance\\\"}, device)",
+        "multi": true,
+        "includeAll": true
+      }
+    ]
+  },
+  "time": { "from": "now-1h", "to": "now" },
+  "timepicker": {
+    "refresh_intervals": ["5s", "10s", "30s", "1m", "5m", "15m", "30m", "1h", "2h", "1d"],
+    "time_options": ["5m", "15m", "1h", "6h", "12h", "24h", "2d", "7d", "30d"]
+  },
+  "timezone": "browser",
+  "title": "Custom Status Overview - 188.44.44.1",
+  "uid": "custom-status-188-44-44-1",
+  "version": 2
+}
