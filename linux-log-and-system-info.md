@@ -3,7 +3,9 @@
 - [Check the SSH log](#check-the-ssh-log)
 - [Check the current system time](#check-the-current-system-time)
 - [How to check CPU, RAM, and disk usage](#how-to-check-cpu-ram-and-disk-usage)
+- [Check listening network ports](#check-listening-network-ports)
 - [Using DNS lookup and traceroute commands](#using-dns-lookup-and-traceroute-commands)
+- [Terminate processes using port or PID](#terminate-processes-using-port-or-pid)
 
 ## Check the SSH log
 
@@ -192,6 +194,27 @@ lsblk
 
 This helps you see how many disks are attached and how they are partitioned.
 
+## Check listening network ports
+
+Use `lsof` to see which processes are listening on TCP ports. The options:
+
+* `-i` = network files
+* `-P` = do not resolve port numbers to service names
+* `-n` = do not resolve IPs to hostnames
+
+```bash
+sudo lsof -i -P -n | grep LISTEN
+```
+
+Example output:
+
+```bash
+docker-pr  49318            root    7u  IPv4   97971      0t0  TCP *:80 (LISTEN)
+docker-pr  49324            root    7u  IPv6   97972      0t0  TCP *:80 (LISTEN)
+docker-pr  49339            root    7u  IPv4   97132      0t0  TCP *:443 (LISTEN)
+docker-pr  49345            root    7u  IPv6   97133      0t0  TCP *:443 (LISTEN)
+```
+
 ## Using DNS lookup and traceroute commands
 
 ### DNS lookup
@@ -263,3 +286,35 @@ tracepath example.com
 ```
 
 This helps you diagnose network routing issues or see where latency occurs between your machine and a remote server.
+
+## Terminating Processes by Port or PID
+
+### Kill a process by port using `fuser`
+
+Find and terminate all processes listening on a specific port:
+
+```bash
+sudo fuser -k 8888/tcp
+````
+
+Check which processes were using that port:
+
+```bash
+sudo fuser -v 8888/tcp
+```
+
+### Kill a process by PID using `kill`
+
+List processes and find the PID:
+
+```bash
+ps -a
+ps -a | grep "<process-name>"
+```
+
+Terminate the process:
+
+```bash
+kill <PID>
+sudo kill <PID>     # if the process belongs to root
+```

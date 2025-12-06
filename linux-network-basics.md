@@ -7,6 +7,7 @@
 - [How to map hosts (vi /etc/hosts)](#how-to-map-hosts-vi-etchosts)
 - [How to change the SSH port](#how-to-change-the-ssh-port)
 - [Install Nginx (Ubuntu / Debian)](#install-nginx-ubuntu--debian)
+- [Test connectivity to a specific port (telnet)](#test-connectivity-to-a-specific-port-telnet)
 
 ## Check the machine's IP address
 
@@ -193,3 +194,36 @@ Verify that Nginx is running and active:
 ```bash
 sudo systemctl status nginx
 ```
+
+## Test connectivity to a specific port (telnet)
+
+You can use `telnet` to check whether a remote host and port are reachable over TCP.  
+This is useful for testing web servers, APIs, or any TCP-based service.
+
+Install telnet (if not already installed):
+
+```bash
+sudo apt install telnet    # Ubuntu / Debian
+sudo yum install telnet    # CentOS / RHEL
+````
+
+Test the connection to an IP and port:
+
+```bash
+telnet 103.138.176.223 80
+```
+
+Example output:
+
+```bash
+Trying 103.138.176.223...
+Connected to 103.138.176.223.
+Escape character is '^]'.
+^CConnection closed by foreign host.
+```
+
+Notes:
+
+* **Connected** means the port is open and reachable.
+* **Connection refused** means the service is not listening on that port.
+* **Timed out** usually indicates a firewall or network blocking the connection.
