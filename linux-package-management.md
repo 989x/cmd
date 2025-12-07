@@ -21,36 +21,31 @@ Check your distro:
 
 ```bash
 cat /etc/os-release
+# Example (short):
+# NAME="Ubuntu"
+# VERSION="22.04.5 LTS (Jammy Jellyfish)"
+# ID=ubuntu
+# VERSION_ID="22.04"
 ```
 
 ## Upgrade all packages on the system
 
 ### Ubuntu / Debian (apt)
 
-Update package list, then upgrade:
-
 ```bash
+# Update package list, then upgrade installed packages:
 sudo apt update
 sudo apt upgrade
-```
-
-Upgrade including dependencies/removals:
-
-```bash
+# Optional: include dependency changes/removals:
 sudo apt full-upgrade
 ```
 
 ### CentOS / RHEL / Fedora (yum / dnf)
 
-Older systems (yum):
-
 ```bash
+# Older systems:
 sudo yum update
-```
-
-Newer systems (dnf):
-
-```bash
+# Newer systems:
 sudo dnf upgrade
 ```
 
@@ -59,26 +54,23 @@ sudo dnf upgrade
 ### Ubuntu / Debian (apt)
 
 ```bash
+# Install nginx (update list first is recommended):
 sudo apt update
 sudo apt install nginx
-```
-
-Start and enable nginx:
-
-```bash
+# Start and enable on boot:
 sudo systemctl enable --now nginx
+# Check status:
+systemctl status nginx
 ```
 
 ### CentOS / RHEL / Fedora (yum / dnf)
 
 ```bash
+# Install nginx:
 sudo yum install nginx   # or: sudo dnf install nginx
+# Start and enable on boot:
 sudo systemctl enable --now nginx
-```
-
-Check status:
-
-```bash
+# Check status:
 systemctl status nginx
 ```
 
@@ -86,28 +78,18 @@ systemctl status nginx
 
 ### Ubuntu / Debian (apt)
 
-Remove nginx (keep config files):
-
 ```bash
+# Remove nginx (keep config files):
 sudo apt remove nginx
-```
-
-Remove nginx and config files:
-
-```bash
+# Remove nginx and its config files:
 sudo apt purge nginx nginx-common
-```
-
-Clean unused packages:
-
-```bash
+# Clean unused packages:
 sudo apt autoremove
 ```
 
 ### CentOS / RHEL / Fedora (yum / dnf)
 
-Remove nginx:
-
 ```bash
+# Remove nginx:
 sudo yum remove nginx    # or: sudo dnf remove nginx
 ```

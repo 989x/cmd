@@ -1,6 +1,5 @@
 # Linux Command Basics
 
-- [Create a File](#create-a-file)
 - [Create a Folder](#create-a-folder)
 - [Display Your Current Path](#display-your-current-path)
 - [What Commands to Use](#what-commands-to-use)
@@ -11,27 +10,6 @@
 - [Delete a File](#delete-a-file)
 - [Delete a Folder](#delete-a-folder)
 - [How to Use curl](#how-to-use-curl)
-- [Check Your Memory Usage](#check-your-memory-usage)
-
-## Create a File
-
-Create an empty file:
-
-```bash
-touch myfile.txt
-```
-
-Create a file with initial text:
-
-```bash
-echo "Hello Linux" > myfile.txt
-```
-
-Create and type multiple lines (finish with `Ctrl + D`):
-
-```bash
-cat > myfile.txt
-```
 
 ## Create a Folder
 
@@ -53,12 +31,8 @@ Show the full path of your current directory:
 
 ```bash
 pwd
-```
-
-Example output:
-
-```text
-/home/username/projects
+# Example output:
+# /home/username/projects
 ```
 
 ## What Commands to Use
@@ -83,21 +57,24 @@ Overwrite a file with new text:
 
 ```bash
 echo "First line" > notes.txt
+# notes.txt will contain:
+# First line
 ```
 
 Append text to the end of a file:
 
 ```bash
 echo "Another line" >> notes.txt
+# Appends "Another line" as a new line to notes.txt
 ```
 
-Create a file and type many lines (end with `Ctrl + D`):
+Create a file and type many lines (end with Ctrl+D):
 
 ```bash
 cat > notes.txt
-This is line 1
-This is line 2
-Ctrl + D to save and exit
+# This is line 1
+# This is line 2
+# (Ctrl+D to save and exit)
 ```
 
 ## How to Edit Text in a File
@@ -106,16 +83,13 @@ Use a simple terminal editor like `nano`:
 
 ```bash
 nano notes.txt
+# Basic nano shortcuts:
+#   Ctrl+O  save (Write Out)
+#   Enter   confirm filename
+#   Ctrl+X  exit
 ```
 
-Basic nano shortcuts:
-
-* Edit text normally with keyboard
-* `Ctrl + O` → save (Write Out)
-* `Enter`    → confirm file name
-* `Ctrl + X` → exit
-
-(If `nano` is not installed, you can ask your system admin to install it or use another editor like `vim`.)
+(If `nano` is not installed, use another editor like `vim`.)
 
 ## Copy a File
 
@@ -169,6 +143,7 @@ Ask for confirmation before deleting:
 
 ```bash
 rm -i notes.txt
+# Prompts: rm: remove regular file 'notes.txt'? y
 ```
 
 Delete multiple files:
@@ -197,6 +172,7 @@ Ask for confirmation on each file and folder:
 
 ```bash
 rm -ri myfolder
+# Prompts for each item before deletion
 ```
 
 ⚠️ **Warning:** `rm -r` is dangerous. Double-check the folder name before running it.
@@ -207,24 +183,28 @@ Basic `curl` usage to show a webpage in the terminal:
 
 ```bash
 curl https://example.com
+# Prints the HTML to your terminal
 ```
 
 Download a file with its original name:
 
 ```bash
 curl -O https://example.com/file.zip
+# Saves as: file.zip (original filename)
 ```
 
 Download and save as a custom name:
 
 ```bash
 curl -o myfile.zip https://example.com/file.zip
+# Saves as: myfile.zip
 ```
 
 Call an API endpoint (GET request):
 
 ```bash
 curl -X GET https://api.example.com/status
+# Example (abbreviated) response might be JSON
 ```
 
 Send data with a POST request:
@@ -233,28 +213,5 @@ Send data with a POST request:
 curl -X POST https://api.example.com/login \
   -H "Content-Type: application/json" \
   -d '{"username": "user", "password": "secret"}'
+# Sends JSON payload to the API
 ```
-
-## Check Your Memory Usage
-
-Show memory usage in a human-readable format:
-
-```bash
-free -h
-```
-
-Example output:
-
-```text
-              total        used        free      shared  buff/cache   available
-Mem:           15Gi       4.0Gi       6.5Gi       512Mi       4.5Gi        10Gi
-Swap:         2.0Gi          0B       2.0Gi
-```
-
-You can also watch live system usage with:
-
-```bash
-top
-```
-
-(Press `q` to exit `top`.)
