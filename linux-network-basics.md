@@ -34,31 +34,24 @@ hostname -I
 ```bash
 cat /etc/resolv.conf
 # Example output:
-# nameserver 8.8.8.8
-# nameserver 1.1.1.1
+# nameserver 127.0.0.53
+# options edns0 trust-ad
 ```
-
-Systemd-based systems:
-
-```bash
-systemd-resolve --status
-```
-
 ### Map hosts (/etc/hosts)
 
 ```bash
 sudo vi /etc/hosts
 # Example entries:
-# 127.0.0.1       myapp.local
-# 192.168.1.10    db.internal
-# (vi tips) i = insert, Esc = exit insert, :wq = save & quit
+# 127.0.1.1 lab-poc-nfs lab-poc-nfs
+# 127.0.0.1 localhost
 ```
 
 ### Add a hostname
 
 ```bash
 hostname
-# (shows current hostname)
+# Example output (shows current hostname):
+# lab-poc-nfs
 
 sudo hostnamectl set-hostname myserver
 # Re-login or reboot may be required to see it everywhere.
@@ -101,8 +94,20 @@ host -t A example.com
 sudo apt install traceroute
 # Run:
 traceroute example.com
+# Example output:
+# Command 'traceroute' not found, but can be installed with:
+# sudo apt install inetutils-traceroute  # version 2:2.2-2ubuntu0.1, or
+# sudo apt install traceroute            # version 1:2.1.0-2
+
 # Alternative:
 tracepath example.com
+# Example output:
+#  1?: [LOCALHOST]                      pmtu 1500
+#  1:  _gateway                                              0.257ms
+#  1:  _gateway                                              0.223ms
+#  2:  103.138.176.254                                       0.802ms asymm  3
+#  3:  203-154-129-169.inter.inet.co.th                      0.830ms asymm  4
+#  4:  203-150-215-110.inter.net.th                          1.077ms asymm  5
 ```
 
 ## Change SSH port
