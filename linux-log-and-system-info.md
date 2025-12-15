@@ -1,9 +1,10 @@
 # Log and System Information
 
-- [System Time](#system-time)
-- [Resource Usage (CPU / RAM / Disk)](#resource-usage-cpu--ram--disk)
-- [Processes & Ports](#processes--ports)
-- [SSH Logs & Authentication](#ssh-logs--authentication)
+* [System Time](#system-time)
+* [Resource Usage (CPU / RAM / Disk)](#resource-usage-cpu--ram--disk)
+* [Processes & Ports](#processes--ports)
+* [SSH Logs & Authentication](#ssh-logs--authentication)
+* [VM Provider Detection](#vm-provider-detection)
 
 ## System Time
 
@@ -183,3 +184,42 @@ Follow real-time:
 ```bash
 sudo journalctl -u ssh -f
 ```
+
+## VM Provider Detection
+
+### Recommended: Detect VM provider (most reliable)
+
+Run the following commands:
+
+```bash
+sudo dmidecode -s system-manufacturer
+sudo dmidecode -s system-product-name
+```
+
+Interpret the results:
+
+| Output                                      | Provider |
+| ------------------------------------------- | -------- |
+| `Amazon EC2`                                | ✅ AWS    |
+| `Google Compute Engine`                     | ✅ GCP    |
+| `Microsoft Corporation` / `Virtual Machine` | ✅ Azure  |
+
+---
+
+### Without sudo (works on most systems)
+
+```bash
+cat /sys/class/dmi/id/sys_vendor
+cat /sys/class/dmi/id/product_name
+```
+
+Common values:
+
+| sys_vendor / product_name              | Meaning                       |
+| -------------------------------------- | ----------------------------- |
+| `QEMU` / `Standard PC (i440FX + PIIX)` | KVM / On‑prem / Private cloud |
+| `Amazon EC2`                           | AWS                           |
+| `Google`                               | GCP                           |
+| `Microsoft Corporation`                | Azure                         |
+
+> Note: On-premise or private cloud environments often expose the hypervisor directly (e.g. QEMU/KVM), while public cloud providers usually mask it.
