@@ -58,6 +58,14 @@ Notes focused on Linux fundamentals and load balancer-related setup.
   System and SSH logs, system time, disk and memory usage,
   DNS lookup tools, and network diagnostics.
 
+### proxmox/
+
+Notes and fixes related to Proxmox VM management and storage changes.
+
+- `extend-root-filesystem-after-resize.md`  
+  Expand the root partition and filesystem after increasing VM disk size
+  (example: disk resized to 50G but `/` still shows ~9G until `growpart` + `resize2fs`).
+
 ## Purpose
 
 - Practice Linux system administration fundamentals
